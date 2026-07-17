@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<script>
+(function(){
+  try {
+    var stored = localStorage.getItem('theme');
+    var prefersLight = window.matchMedia && window.matchMedia('(prefers-color-scheme: light)').matches;
+    var theme = stored || (prefersLight ? 'light' : 'dark');
+    if (theme === 'light') document.documentElement.setAttribute('data-theme', 'light');
+  } catch(e) {}
+})();
+</script>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Work — Lowhikan Sivananthasarma</title>
+<meta name="description" content="Industry and consulting experience of Lowhikan Sivananthasarma, spanning structural consultancy and site engineering roles in Sri Lanka.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;1,400&family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600;1,400&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+:root {
+  --bg: #0d0d0b; --bg-1: #141412; --bg-2: #1c1c19;
+  --line: rgba(255,255,255,0.08); --line-mid: rgba(255,255,255,0.14);
+  --text: #e8e6df; --text-2: #9b9991; --text-3: #5a5854;
+  --red: #EC1E25; --teal: #00B4B4; --amber: #d4a843;
+  --serif: 'Playfair Display', Georgia, serif;
+  --sans: 'DM Sans', sans-serif;
+  --mono: 'JetBrains Mono', monospace;
+}
+[data-theme="light"] {
+  --bg: #faf8f3; --bg-1: #f1eee5; --bg-2: #e8e3d6;
+  --line: rgba(20,20,15,0.09); --line-mid: rgba(20,20,15,0.16);
+  --text: #1b1a16; --text-2: #55534a; --text-3: #8a8879;
+  --red: #C11B21; --teal: #007070; --amber: #9c7118;
+}
+html { scroll-behavior: smooth; }
+body { background: var(--bg); color: var(--text); font-family: var(--sans); font-size: 16px; line-height: 1.9; -webkit-font-smoothing: antialiased; transition: background .25s ease, color .25s ease; }
+.wrap { max-width: min(900px, 88vw); margin: 0 auto; padding: 0 6vw; }
+nav { position: fixed; top:0; left:0; right:0; z-index:500; padding:0 6vw; height:60px; display:flex; align-items:center; justify-content:space-between; background:rgba(13,13,11,0.9); backdrop-filter:blur(16px); border-bottom:1px solid var(--line); }
+[data-theme="light"] nav { background: rgba(250,248,243,0.9); }
+.nav-id { font-family:var(--mono); font-size:12px; letter-spacing:.1em; color:var(--red); text-decoration:none; font-weight:500; }
+.theme-toggle { display:flex; align-items:center; justify-content:center; width:32px; height:32px; border:1px solid var(--line-mid); border-radius:2px; background:transparent; color:var(--text); }
+.theme-toggle svg { width:15px; height:15px; }
+.theme-toggle .icon-moon { display:none; }
+[data-theme="light"] .theme-toggle .icon-sun { display:none; }
+[data-theme="light"] .theme-toggle .icon-moon { display:block; }
+header.hero { padding: 130px 0 40px; border-bottom: 1px solid var(--line); }
+.eyebrow { display:flex; align-items:center; gap:12px; margin-bottom:1.5rem; }
+.eyebrow-line { width:32px; height:1px; background:var(--red); }
+.eyebrow-text { font-family:var(--mono); font-size:11px; letter-spacing:.14em; text-transform:uppercase; color:var(--red); }
+h1 { font-family:var(--serif); font-size:clamp(2rem,4.5vw,3.2rem); font-weight:400; line-height:1.25; color:var(--text); margin-bottom:1rem; }
+p.body-text { font-size:15px; color:var(--text-2); line-height:1.9; max-width:640px; }
+section { padding: 3rem 0; }
+.teach-row { display:grid; grid-template-columns:150px 1fr; gap:2rem; align-items:start; padding:1.75rem 0; border-bottom:1px solid var(--line); }
+.teach-row:first-child { border-top:1px solid var(--line); }
+.teach-row:last-child { border-bottom:none; }
+.teach-period { font-family:var(--mono); font-size:12px; color:var(--red); padding-top:3px; }
+.teach-role { font-size:15px; font-weight:500; color:var(--text); margin-bottom:2px; }
+.teach-inst { font-family:var(--mono); font-size:10px; letter-spacing:.08em; text-transform:uppercase; color:var(--text-3); margin-bottom:8px; }
+.work-list { font-size:14px; color:var(--text-2); line-height:1.8; margin-top:10px; padding-left:1.1rem; }
+.work-list li { margin-bottom:2px; }
+.back-link { display:inline-flex; align-items:center; gap:8px; font-family:var(--mono); font-size:12px; color:var(--text-3); text-decoration:none; margin-top:2rem; margin-bottom:2rem; }
+.back-link:hover { color:var(--text); }
+footer { padding:1.5rem 6vw; display:flex; justify-content:space-between; border-top:1px solid var(--line); font-family:var(--mono); font-size:10px; color:var(--text-3); letter-spacing:.08em; }
+@media(max-width:700px){
+  header.hero{padding:100px 0 32px;}
+  .teach-row{grid-template-columns:1fr;gap:0.4rem;}
+  .teach-period{padding-top:0;}
+}
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="https://lowhikan.github.io" class="nav-id">@ lowhikan</a>
+  <button class="theme-toggle" id="theme-toggle" aria-label="Toggle light and dark theme">
+    <svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><circle cx="12" cy="12" r="4.5"/><path d="M12 2.5v2.5M12 19v2.5M4.6 4.6l1.8 1.8M17.6 17.6l1.8 1.8M2.5 12H5M19 12h2.5M4.6 19.4l1.8-1.8M17.6 6.4l1.8-1.8"/></svg>
+    <svg class="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M20 14.5A8.5 8.5 0 0 1 9.5 4a8.5 8.5 0 1 0 10.5 10.5z"/></svg>
+  </button>
+</nav>
+
+<div class="wrap">
+
+  <header class="hero">
+    <div class="eyebrow">
+      <div class="eyebrow-line"></div>
+      <span class="eyebrow-text">Experience</span>
+    </div>
+    <h1>Work</h1>
+    <p class="body-text">Structural engineering roles in consulting and industry, covering structural assessment, design, and site engineering in Sri Lanka.</p>
+  </header>
+
+  <section>
+    <div class="teach-row">
+      <div class="teach-period">Mar 2022 – Oct 2023</div>
+      <div>
+        <div class="teach-role">Consulting Structural Engineer</div>
+        <div class="teach-inst">University of Moratuwa, Sri Lanka</div>
+        <ul class="work-list">
+          <li>Structural assessment of the roof truss of the International Cricket Stadium at Pallekelle</li>
+          <li>Structural assessment of the 4th floor slab of the BOC Bank branch building at Maharagama</li>
+          <li>Structural design of a weighbridge for Way Lanka Weighing Machines (Pvt) Ltd at Battaramulla</li>
+        </ul>
+      </div>
+    </div>
+    <div class="teach-row">
+      <div class="teach-period">Jun 2019 – Nov 2019</div>
+      <div>
+        <div class="teach-role">Trainee Civil Engineer</div>
+        <div class="teach-inst">Civil &amp; Structural Engineering Consultants (Pvt) Ltd, Sri Lanka</div>
+        <div style="margin-top:10px; font-size:14px; color:var(--text-2); line-height:1.8;"><strong style="color:var(--text-2); font-weight:500;">Projects:</strong> InterContinental Hotel Project Colombo, Macksons Office Building, Macksons Residencies</div>
+        <ul class="work-list">
+          <li>Supervised superstructure, substructure construction, and finishing works</li>
+          <li>Assisted in inspection of slabs, beams, columns, walls, and staircase reinforcements</li>
+          <li>Involved in field tests, bar scheduling, and post-tensioning rectification works</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <a href="https://lowhikan.github.io#work" class="back-link">&larr; Back to Home</a>
+
+</div>
+
+<footer>
+  <span>Part of <a href="https://lowhikan.github.io" style="color:var(--text-3);">lowhikan.github.io</a></span>
+  <span>© 2026 Lowhikan Sivananthasarma</span>
+</footer>
+
+<script>
+const themeToggle = document.getElementById('theme-toggle');
+if (themeToggle) {
+  themeToggle.addEventListener('click', () => {
+    const isLight = document.documentElement.getAttribute('data-theme') === 'light';
+    if (isLight) {
+      document.documentElement.removeAttribute('data-theme');
+      localStorage.setItem('theme', 'dark');
+    } else {
+      document.documentElement.setAttribute('data-theme', 'light');
+      localStorage.setItem('theme', 'light');
+    }
+  });
+}
+</script>
+</body>
+</html>
