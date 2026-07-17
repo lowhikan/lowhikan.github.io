@@ -163,6 +163,12 @@ section { padding:3rem 0; position:relative; z-index:1; }
 .r-card-body { font-size:13px; color:var(--text-2); line-height:1.75; margin-bottom:1.25rem; text-align:justify; }
 .r-tags { display:flex; gap:6px; flex-wrap:wrap; }
 .r-tag { padding:3px 8px; border:1px solid var(--line-mid); border-radius:2px; font-family:var(--mono); font-size:10px; color:var(--text-3); letter-spacing:.06em; }
+.r-card-view { display:flex; align-items:center; gap:6px; margin-top:1.25rem; font-family:var(--mono); font-size:11px; letter-spacing:.06em; color:var(--teal); }
+.r-card-view-arrow { transition:transform .2s ease; }
+.r-card:hover .r-card-view-arrow { transform:translateX(4px); }
+.teaser-link { display:inline-flex; align-items:center; gap:6px; font-family:var(--mono); font-size:12px; letter-spacing:.06em; color:var(--teal); text-decoration:none; }
+.teaser-link span.arrow { transition:transform .2s ease; }
+.teaser-link:hover span.arrow { transform:translateX(4px); }
 /* PUBLICATIONS */
 .pub-row { display:grid; grid-template-columns:80px 1fr 130px; gap:2rem; align-items:start; padding:1.75rem 0; border-bottom:1px solid var(--line); transition:all .2s; }
 .pub-row:first-child { border-top:1px solid var(--line); }
@@ -377,6 +383,7 @@ footer { padding:1.5rem 3rem; display:flex; justify-content:space-between; align
         <h3 class="r-card-title">3D Full-field Deformation Measurement using DIC</h3>
         <p class="r-card-body">Developed a Digital Image Correlation algorithm and GUI to compute displacement and strain fields from mobile camera images, validated experimentally against laboratory measurements.</p>
         <div class="r-tags"><span class="r-tag">Digital Image Correlation</span><span class="r-tag">Computer Vision</span><span class="r-tag">Experimental Mechanics</span></div>
+        <div class="r-card-view"><span>View project</span><span class="r-card-view-arrow">&rarr;</span></div>
       </a>
     </div>
   </div>
@@ -499,54 +506,8 @@ footer { padding:1.5rem 3rem; display:flex; justify-content:space-between; align
       <p class="section-desc"></p>
     </div>
     <div class="reveal">
-      <div class="teach-row">
-        <div class="teach-period">Oct 2024 – Present</div>
-        <div>
-          <div class="teach-role">Undergraduate Supervisor</div>
-          <div class="teach-inst">University of Cambridge, UK</div>
-          <div class="teach-modules">2P2 Structures</div>
-        </div>
-      </div>
-      <div class="teach-row">
-        <div class="teach-period">Dec 2022 – Jul 2023</div>
-        <div>
-          <div class="teach-role">Contract Lecturer</div>
-          <div class="teach-inst">University of Vocational Technology, Sri Lanka</div>
-          <div class="teach-modules">Mechanics of Solids, Structural Analysis</div>
-        </div>
-      </div>
-      <div class="teach-row">
-        <div class="teach-period">Oct 2022 – Oct 2023</div>
-        <div>
-          <div class="teach-role">Visiting Lecturer</div>
-          <div class="teach-inst">University of Moratuwa, Sri Lanka</div>
-          <div class="teach-modules">Structures I</div>
-        </div>
-      </div>
-      <div class="teach-row">
-        <div class="teach-period">Aug 2021 – Oct 2023</div>
-        <div>
-          <div class="teach-role">Visiting Instructor</div>
-          <div class="teach-inst">University of Moratuwa, Sri Lanka</div>
-          <div class="teach-modules">Mechanics, Mechanics of Materials, Structural Analysis I &amp; II, Computing in Civil Engineering, Computational Mechanics</div>
-        </div>
-      </div>
-      <div class="teach-row">
-        <div class="teach-period">Feb 2016 – Jul 2023</div>
-        <div>
-          <div class="teach-role">Mathematics Tutor</div>
-          <div class="teach-inst">Self-employed, Sri Lanka</div>
-          <div class="teach-modules">Advanced Level Combined Mathematics</div>
-        </div>
-      </div>
-      <div class="teach-row">
-        <div class="teach-period">Feb 2016 – May 2016</div>
-        <div>
-          <div class="teach-role">Physics Teacher</div>
-          <div class="teach-inst">St. Joseph's College, Sri Lanka</div>
-          <div class="teach-modules">Advanced Level Physics</div>
-        </div>
-      </div>
+      <p style="font-size:14px; color:var(--text-2); line-height:1.85; max-width:600px; margin-bottom:1.5rem;">Teaching and supervision experience in structural analysis, mechanics, and computational mechanics, at the University of Cambridge, University of Moratuwa, and the University of Vocational Technology, Sri Lanka.</p>
+      <a href="teaching/" class="teaser-link">View teaching experience <span class="arrow">&rarr;</span></a>
     </div>
   </div>
 </section>
@@ -560,31 +521,8 @@ footer { padding:1.5rem 3rem; display:flex; justify-content:space-between; align
       <p class="section-desc"></p>
     </div>
     <div class="reveal">
-      <div class="teach-row">
-        <div class="teach-period">Mar 2022 – Oct 2023</div>
-        <div>
-          <div class="teach-role">Consulting Structural Engineer</div>
-          <div class="teach-inst">University of Moratuwa, Sri Lanka</div>
-          <ul class="work-list">
-            <li>Structural assessment of the roof truss of the International Cricket Stadium at Pallekelle</li>
-            <li>Structural assessment of the 4th floor slab of the BOC Bank branch building at Maharagama</li>
-            <li>Structural design of a weighbridge for Way Lanka Weighing Machines (Pvt) Ltd at Battaramulla</li>
-          </ul>
-        </div>
-      </div>
-      <div class="teach-row" style="border-bottom:none;">
-        <div class="teach-period">Jun 2019 – Nov 2019</div>
-        <div>
-          <div class="teach-role">Trainee Civil Engineer</div>
-          <div class="teach-inst">Civil &amp; Structural Engineering Consultants (Pvt) Ltd, Sri Lanka</div>
-          <div style="margin-top:10px; font-size:13px; color:var(--text-2); line-height:1.8;"><strong style="color:var(--text-2); font-weight:500;">Projects:</strong> InterContinental Hotel Project Colombo, Macksons Office Building, Macksons Residencies</div>
-          <ul class="work-list">
-            <li>Supervised superstructure, substructure construction, and finishing works</li>
-            <li>Assisted in inspection of slabs, beams, columns, walls, and staircase reinforcements</li>
-            <li>Involved in field tests, bar scheduling, and post-tensioning rectification works</li>
-          </ul>
-        </div>
-      </div>
+      <p style="font-size:14px; color:var(--text-2); line-height:1.85; max-width:600px; margin-bottom:1.5rem;">Structural engineering roles in consulting and industry, covering structural assessment, design, and site engineering in Sri Lanka.</p>
+      <a href="work/" class="teaser-link">View work experience <span class="arrow">&rarr;</span></a>
     </div>
   </div>
 </section>
