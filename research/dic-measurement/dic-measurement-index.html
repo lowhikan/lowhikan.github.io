@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<script>
+(function(){
+  try {
+    var stored = localStorage.getItem('theme');
+    var prefersLight = window.matchMedia && window.matchMedia('(prefers-color-scheme: light)').matches;
+    var theme = stored || (prefersLight ? 'light' : 'dark');
+    if (theme === 'light') document.documentElement.setAttribute('data-theme', 'light');
+  } catch(e) {}
+})();
+</script>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>3D Full-field Deformation Measurement using DIC — Lowhikan Sivananthasarma</title>
+<meta name="description" content="Undergraduate research project developing a Digital Image Correlation (DIC) system for 3D full-field deformation and strain measurement using stereo vision.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;1,400&family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600;1,400&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+:root {
+  --bg: #0d0d0b; --bg-1: #141412; --bg-2: #1c1c19;
+  --line: rgba(255,255,255,0.08); --line-mid: rgba(255,255,255,0.14);
+  --text: #e8e6df; --text-2: #9b9991; --text-3: #5a5854;
+  --red: #EC1E25; --teal: #00B4B4; --amber: #d4a843;
+  --serif: 'Playfair Display', Georgia, serif;
+  --sans: 'DM Sans', sans-serif;
+  --mono: 'JetBrains Mono', monospace;
+}
+[data-theme="light"] {
+  --bg: #faf8f3; --bg-1: #f1eee5; --bg-2: #e8e3d6;
+  --line: rgba(20,20,15,0.09); --line-mid: rgba(20,20,15,0.16);
+  --text: #1b1a16; --text-2: #55534a; --text-3: #8a8879;
+  --red: #C11B21; --teal: #007070; --amber: #9c7118;
+}
+html { scroll-behavior: smooth; }
+body { background: var(--bg); color: var(--text); font-family: var(--sans); font-size: 16px; line-height: 1.9; -webkit-font-smoothing: antialiased; transition: background .25s ease, color .25s ease; }
+.wrap { max-width: min(1000px, 88vw); margin: 0 auto; padding: 0 6vw; }
+nav { position: fixed; top:0; left:0; right:0; z-index:500; padding:0 6vw; height:60px; display:flex; align-items:center; justify-content:space-between; background:rgba(13,13,11,0.9); backdrop-filter:blur(16px); border-bottom:1px solid var(--line); }
+[data-theme="light"] nav { background: rgba(250,248,243,0.9); }
+.nav-id { font-family:var(--mono); font-size:12px; letter-spacing:.1em; color:var(--red); text-decoration:none; font-weight:500; }
+.theme-toggle { display:flex; align-items:center; justify-content:center; width:32px; height:32px; border:1px solid var(--line-mid); border-radius:2px; background:transparent; color:var(--text); }
+.theme-toggle svg { width:15px; height:15px; }
+.theme-toggle .icon-moon { display:none; }
+[data-theme="light"] .theme-toggle .icon-sun { display:none; }
+[data-theme="light"] .theme-toggle .icon-moon { display:block; }
+header.hero { padding: 130px 0 40px; border-bottom: 1px solid var(--line); }
+.eyebrow { display:flex; align-items:center; gap:12px; margin-bottom:1.5rem; }
+.eyebrow-line { width:32px; height:1px; background:var(--red); }
+.eyebrow-text { font-family:var(--mono); font-size:11px; letter-spacing:.14em; text-transform:uppercase; color:var(--red); }
+h1 { font-family:var(--serif); font-size:clamp(2rem,4.5vw,3.2rem); font-weight:400; line-height:1.25; color:var(--text); margin-bottom:1rem; }
+.meta-row { display:flex; gap:1.5rem; flex-wrap:wrap; font-family:var(--mono); font-size:12px; color:var(--text-3); letter-spacing:.03em; }
+section { padding: 3rem 0; border-bottom: 1px solid var(--line); }
+section:last-of-type { border-bottom: none; }
+.section-label { font-family:var(--mono); font-size:11px; letter-spacing:.14em; text-transform:uppercase; color:var(--teal); margin-bottom:1.5rem; }
+p.body-text { font-size:15px; color:var(--text-2); line-height:1.9; max-width:720px; text-align:justify; margin-bottom:1.25rem; }
+.gallery { display:grid; grid-template-columns:1fr 1fr; gap:2px; border:1px solid var(--line); border-radius:4px; overflow:hidden; margin-bottom:1rem; }
+.gallery img { display:block; width:100%; height:100%; object-fit:cover; aspect-ratio:16/10; }
+.gallery-caption { font-family:var(--mono); font-size:11px; color:var(--text-3); text-align:center; margin-bottom:2.5rem; }
+.info-grid { display:grid; grid-template-columns:repeat(2,1fr); gap:1px; border:1px solid var(--line); border-radius:4px; }
+.info-card { background:var(--bg-1); padding:1.75rem; }
+.info-title { font-family:var(--mono); font-size:11px; letter-spacing:.1em; text-transform:uppercase; color:var(--teal); margin-bottom:.75rem; }
+.info-body { font-size:14px; color:var(--text-2); line-height:1.75; }
+.info-body ul { padding-left:1.1rem; margin-top:.25rem; }
+.pub-block { background:var(--bg-1); border:1px solid var(--line); border-radius:4px; padding:1.75rem; margin-top:1.5rem; }
+.pub-label { font-family:var(--mono); font-size:11px; letter-spacing:.1em; text-transform:uppercase; color:var(--red); margin-bottom:.75rem; }
+.pub-text { font-size:14px; color:var(--text-2); font-style:italic; line-height:1.75; }
+.back-link { display:inline-flex; align-items:center; gap:8px; font-family:var(--mono); font-size:12px; color:var(--text-3); text-decoration:none; margin-top:3rem; margin-bottom:2rem; }
+.back-link:hover { color:var(--text); }
+footer { padding:1.5rem 6vw; display:flex; justify-content:space-between; border-top:1px solid var(--line); font-family:var(--mono); font-size:10px; color:var(--text-3); letter-spacing:.08em; }
+@media(max-width:700px){
+  .gallery{grid-template-columns:1fr;}
+  .info-grid{grid-template-columns:1fr;}
+  header.hero{padding:100px 0 32px;}
+}
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="https://lowhikan.github.io" class="nav-id">@ lowhikan</a>
+  <button class="theme-toggle" id="theme-toggle" aria-label="Toggle light and dark theme">
+    <svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><circle cx="12" cy="12" r="4.5"/><path d="M12 2.5v2.5M12 19v2.5M4.6 4.6l1.8 1.8M17.6 17.6l1.8 1.8M2.5 12H5M19 12h2.5M4.6 19.4l1.8-1.8M17.6 6.4l1.8-1.8"/></svg>
+    <svg class="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M20 14.5A8.5 8.5 0 0 1 9.5 4a8.5 8.5 0 1 0 10.5 10.5z"/></svg>
+  </button>
+</nav>
+
+<div class="wrap">
+
+  <header class="hero">
+    <div class="eyebrow">
+      <div class="eyebrow-line"></div>
+      <span class="eyebrow-text">Undergraduate Research</span>
+    </div>
+    <h1>3D Full-field Deformation Measurement using Digital Image Correlation</h1>
+    <div class="meta-row">
+      <span>University of Moratuwa, Sri Lanka</span>
+      <span>Jan 2020 – Jul 2021</span>
+      <span>Supervisor: Prof. Chinthaka Mallikarachchi</span>
+    </div>
+  </header>
+
+  <section>
+    <div class="section-label">Overview</div>
+    <p class="body-text">This project developed a Digital Image Correlation (DIC) based algorithm capable of computing full-field displacement and strain from photographs taken by ordinary digital cameras. Unlike commercial DIC systems that typically require specialised hardware, the method was designed to work with widely available equipment, making it a practical, low-cost tool for laboratory-scale civil engineering experiments.</p>
+    <p class="body-text">A GUI-driven standalone application was built in MATLAB, allowing users to load stereo image pairs and obtain full-field 3D displacement and strain maps without needing to interact with the underlying code. The system was validated through a series of physical tests, including rigid body motion tests, tensile and compression tests, and trial measurements of plastic shrinkage cracks in mortar.</p>
+  </section>
+
+  <section>
+    <div class="section-label">Gallery</div>
+    <div class="gallery">
+      <img src="images/research/dic/lab-setup-1.png" alt="Stereo camera rig and laptop setup used for DIC image capture">
+      <img src="images/research/dic/lab-setup-2.png" alt="Specimen positioned under the loading frame for DIC testing">
+    </div>
+    <div class="gallery-caption">Stereo camera rig and specimen setup in the structures laboratory</div>
+    <div class="gallery">
+      <img src="images/research/dic/dic-speckle.png" alt="Speckle-patterned specimen used for digital image correlation">
+      <img src="images/research/dic/dic-plots.png" alt="Computed displacement and strain field results from the DIC algorithm">
+    </div>
+    <div class="gallery-caption">Speckle pattern specimen (left) and computed displacement / strain fields (right)</div>
+  </section>
+
+  <section>
+    <div class="section-label">Details</div>
+    <div class="info-grid">
+      <div class="info-card">
+        <div class="info-title">Objective</div>
+        <div class="info-body">Developing a Digital Image Correlation (DIC) based algorithm that can compute displacement and strain using photographs taken by digital cameras.</div>
+      </div>
+      <div class="info-card">
+        <div class="info-title">Application</div>
+        <div class="info-body">Developed a GUI-driven standalone application using MATLAB.</div>
+      </div>
+      <div class="info-card">
+        <div class="info-title">Features</div>
+        <div class="info-body">
+          <ul>
+            <li>3D full-field deformation measurement</li>
+            <li>Effective for lab-scale civil engineering experiments</li>
+            <li>Easy-to-handle application</li>
+          </ul>
+        </div>
+      </div>
+      <div class="info-card">
+        <div class="info-title">Testing</div>
+        <div class="info-body">Carried out rigid body motion tests, tensile and compression tests, and initial trial tests of plastic shrinkage cracks using mortar.</div>
+      </div>
+    </div>
+
+    <div class="pub-block">
+      <div class="pub-label">Publication</div>
+      <div class="pub-text">"3D Full-field Deformation and Strain Measurement using Stereo Vision Techniques," Proceedings of the Annual Sessions of IESL, Colombo, Sri Lanka.</div>
+    </div>
+  </section>
+
+  <a href="https://lowhikan.github.io#research" class="back-link">&larr; Back to Research</a>
+
+</div>
+
+<footer>
+  <span>Part of <a href="https://lowhikan.github.io" style="color:var(--text-3);">lowhikan.github.io</a></span>
+  <span>© 2026 Lowhikan Sivananthasarma</span>
+</footer>
+
+<script>
+const themeToggle = document.getElementById('theme-toggle');
+if (themeToggle) {
+  themeToggle.addEventListener('click', () => {
+    const isLight = document.documentElement.getAttribute('data-theme') === 'light';
+    if (isLight) {
+      document.documentElement.removeAttribute('data-theme');
+      localStorage.setItem('theme', 'dark');
+    } else {
+      document.documentElement.setAttribute('data-theme', 'light');
+      localStorage.setItem('theme', 'light');
+    }
+  });
+}
+</script>
+</body>
+</html>
