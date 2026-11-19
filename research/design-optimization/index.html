@@ -1,1 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<script>
+(function(){
+  try {
+    var stored = localStorage.getItem('theme');
+    var prefersLight = window.matchMedia && window.matchMedia('(prefers-color-scheme: light)').matches;
+    var theme = stored || (prefersLight ? 'light' : 'dark');
+    if (theme === 'light') document.documentElement.setAttribute('data-theme', 'light');
+  } catch(e) {}
+})();
+</script>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Design-Informed Generative Modelling of Skeletal Structures — Lowhikan Sivananthasarma</title>
+<meta name="description" content="MSc research project developing an automated workflow for design-informed generative modelling of skeletal structures using structural optimization, skeletonization, and constructive solid geometry.">
+<!-- Google Scholar citation metadata -->
+<meta name="citation_title" content="Design-Informed Generative Modelling of Skeletal Structures using Structural Optimization">
+<meta name="citation_author" content="Sarma, L.S.">
+<meta name="citation_author" content="Mallikarachchi, C.">
+<meta name="citation_author" content="Herath, S.">
+<meta name="citation_publication_date" content="2024">
+<meta name="citation_journal_title" content="Computers and Structures">
+<meta name="citation_volume" content="302">
+<meta name="citation_firstpage" content="107474">
+<meta name="citation_doi" content="10.1016/j.compstruc.2024.107474">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;1,400&family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600;1,400&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+:root {
+  --bg: #0d0d0b; --bg-1: #141412; --bg-2: #1c1c19;
+  --line: rgba(255,255,255,0.08); --line-mid: rgba(255,255,255,0.14);
+  --text: #e8e6df; --text-2: #9b9991; --text-3: #5a5854;
+  --red: #EC1E25; --teal: #00B4B4; --amber: #d4a843;
+  --serif: 'Playfair Display', Georgia, serif;
+  --sans: 'DM Sans', sans-serif;
+  --mono: 'JetBrains Mono', monospace;
+}
+[data-theme="light"] {
+  --bg: #faf8f3; --bg-1: #f1eee5; --bg-2: #e8e3d6;
+  --line: rgba(20,20,15,0.09); --line-mid: rgba(20,20,15,0.16);
+  --text: #1b1a16; --text-2: #55534a; --text-3: #8a8879;
+  --red: #C11B21; --teal: #007070; --amber: #9c7118;
+}
+html { scroll-behavior: smooth; }
+body { background: var(--bg); color: var(--text); font-family: var(--sans); font-size: 16px; line-height: 1.9; -webkit-font-smoothing: antialiased; transition: background .25s ease, color .25s ease; }
+.wrap { max-width: min(1000px, 88vw); margin: 0 auto; padding: 0 6vw; }
+nav { position: fixed; top:0; left:0; right:0; z-index:500; padding:0 6vw; height:60px; display:flex; align-items:center; justify-content:space-between; background:rgba(13,13,11,0.9); backdrop-filter:blur(16px); border-bottom:1px solid var(--line); }
+[data-theme="light"] nav { background: rgba(250,248,243,0.9); }
+.nav-id { font-family:var(--mono); font-size:12px; letter-spacing:.1em; color:var(--red); text-decoration:none; font-weight:500; }
+.theme-toggle { display:flex; align-items:center; justify-content:center; width:32px; height:32px; border:1px solid var(--line-mid); border-radius:2px; background:transparent; color:var(--text); cursor:pointer; }
+.theme-toggle svg { width:15px; height:15px; }
+.theme-toggle .icon-moon { display:none; }
+[data-theme="light"] .theme-toggle .icon-sun { display:none; }
+[data-theme="light"] .theme-toggle .icon-moon { display:block; }
+header.hero { padding: 130px 0 40px; border-bottom: 1px solid var(--line); }
+.eyebrow { display:flex; align-items:center; gap:12px; margin-bottom:1.5rem; }
+.eyebrow-line { width:32px; height:1px; background:var(--red); }
+.eyebrow-text { font-family:var(--mono); font-size:11px; letter-spacing:.14em; text-transform:uppercase; color:var(--red); }
+h1 { font-family:var(--serif); font-size:clamp(2rem,4.5vw,3.2rem); font-weight:400; line-height:1.25; color:var(--text); margin-bottom:1rem; }
+.meta-row { display:flex; gap:1.5rem; flex-wrap:wrap; font-family:var(--mono); font-size:12px; color:var(--text-3); letter-spacing:.03em; }
+section { padding: 3rem 0; border-bottom: 1px solid var(--line); }
+section:last-of-type { border-bottom: none; }
+.section-label { font-family:var(--mono); font-size:11px; letter-spacing:.14em; text-transform:uppercase; color:var(--teal); margin-bottom:1.5rem; }
+p.body-text { font-size:15px; color:var(--text-2); line-height:1.9; max-width:720px; text-align:justify; margin-bottom:1.25rem; }
+.workflow-img { display:block; width:100%; max-width:800px; margin:0 auto 0.75rem; border:1px solid var(--line); border-radius:4px; }
+.img-caption { font-family:var(--mono); font-size:11px; color:var(--text-3); text-align:center; margin-bottom:2.5rem; max-width:800px; margin-left:auto; margin-right:auto; }
+.info-grid { display:grid; grid-template-columns:repeat(2,1fr); gap:1px; border:1px solid var(--line); border-radius:4px; }
+.info-card { background:var(--bg-1); padding:1.75rem; }
+.info-title { font-family:var(--mono); font-size:11px; letter-spacing:.1em; text-transform:uppercase; color:var(--teal); margin-bottom:.75rem; }
+.info-body { font-size:14px; color:var(--text-2); line-height:1.75; }
+.info-body ul { padding-left:1.1rem; margin-top:.25rem; }
+.info-body li { margin-bottom:.25rem; }
+.pub-block { background:var(--bg-1); border:1px solid var(--line); border-radius:4px; padding:1.75rem; margin-top:1.5rem; }
+.pub-label { font-family:var(--mono); font-size:11px; letter-spacing:.1em; text-transform:uppercase; color:var(--red); margin-bottom:.75rem; }
+.pub-text { font-size:14px; color:var(--text-2); line-height:1.75; }
+.back-link { display:inline-flex; align-items:center; gap:8px; font-family:var(--mono); font-size:12px; color:var(--text-3); text-decoration:none; margin-top:3rem; margin-bottom:2rem; }
+.back-link:hover { color:var(--text); }
+footer { padding:1.5rem 6vw; display:flex; justify-content:space-between; border-top:1px solid var(--line); font-family:var(--mono); font-size:10px; color:var(--text-3); letter-spacing:.08em; }
+@media(max-width:700px){
+  .info-grid{grid-template-columns:1fr;}
+  header.hero{padding:100px 0 32px;}
+}
+</style>
+</head>
+<body>
 
+<nav>
+  <a href="https://lowhikan.github.io" class="nav-id">@ lowhikan</a>
+  <button class="theme-toggle" id="theme-toggle" aria-label="Toggle light and dark theme">
+    <svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><circle cx="12" cy="12" r="4.5"/><path d="M12 2.5v2.5M12 19v2.5M4.6 4.6l1.8 1.8M17.6 17.6l1.8 1.8M2.5 12H5M19 12h2.5M4.6 19.4l1.8-1.8M17.6 6.4l1.8-1.8"/></svg>
+    <svg class="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M20 14.5A8.5 8.5 0 0 1 9.5 4a8.5 8.5 0 1 0 10.5 10.5z"/></svg>
+  </button>
+</nav>
+
+<div class="wrap">
+
+  <header class="hero">
+    <div class="eyebrow">
+      <div class="eyebrow-line"></div>
+      <span class="eyebrow-text">MSc Research</span>
+    </div>
+    <h1>Design-Informed Generative Modelling of Skeletal Structures using Structural Optimization</h1>
+    <div class="meta-row">
+      <span>University of Moratuwa, Sri Lanka</span>
+      <span>2022 – 2023</span>
+      <span>Supervisors: Prof. Chinthaka Mallikarachchi &amp; Dr Sumudu Herath</span>
+    </div>
+  </header>
+
+  <section>
+    <div class="section-label">Overview</div>
+    <p class="body-text">This research developed an automated computational workflow for generating structurally robust, ready-to-manufacture CAD models of skeletal structures from topology-optimized continuum designs. The key challenge addressed is the gap between mathematically optimal topologies and practically constructible structures: topology optimization produces smooth, complex geometries that are difficult to manufacture using standard industry shapes.</p>
+    <p class="body-text">The developed workflow unifies topology, layout, and size optimization within a single parametric platform. Starting from a 2D topology-optimized binary image, a modified Zhang–Suen skeletonization algorithm extracts a one-pixel-wide medial axis, which is then converted into a spatial frame model using graph theory. The frame members undergo iterative size and layout optimization, and a final CAD model is generated by recursively combining constructive solid geometry primitives. All outputs are checked against standard codes of practice — Eurocode 3 for steel structures — ensuring structural integrity under axial, bending, shear, and buckling failure modes.</p>
+    <p class="body-text">The workflow is fully implemented in Rhinoceros 3D with Grasshopper and a Python coding environment, making it accessible to practicing engineers without requiring bespoke manufacturing techniques.</p>
+  </section>
+
+  <section>
+    <div class="section-label">Workflow</div>
+    <img src="../../images/research/msc/workflow.jpg" alt="Full workflow from topology optimization through skeletonization, frame extraction, size and layout optimization, to CAD model generation and structural validation" class="workflow-img">
+    <p class="img-caption">Fig. 1 — Complete workflow illustrated on a cantilevered beam example: (a) design domain, (b) topology-optimized structure, (c) topological skeleton, (d) extracted frame, (e) size and layout optimized frame, (f–g) CAD model generation, (h) structural analysis, (i) code-compliant optimal design.</p>
+  </section>
+
+  <section>
+    <div class="section-label">Details</div>
+    <div class="info-grid">
+      <div class="info-card">
+        <div class="info-title">Objective</div>
+        <div class="info-body">Develop an automated pipeline to convert continuum topology-optimized designs into discrete, code-compliant, ready-to-manufacture skeletal CAD models.</div>
+      </div>
+      <div class="info-card">
+        <div class="info-title">Implementation</div>
+        <div class="info-body">Fully implemented in Rhinoceros 3D using the visual programming tool Grasshopper in a Python coding environment.</div>
+      </div>
+      <div class="info-card">
+        <div class="info-title">Key Methods</div>
+        <div class="info-body">
+          <ul>
+            <li>SIMP topology optimization</li>
+            <li>Modified Zhang–Suen skeletonization</li>
+            <li>Graph-based frame extraction</li>
+            <li>Sequential size &amp; layout optimization</li>
+            <li>Constructive Solid Geometry (CSG) CAD generation</li>
+          </ul>
+        </div>
+      </div>
+      <div class="info-card">
+        <div class="info-title">Structural Validation</div>
+        <div class="info-body">
+          <ul>
+            <li>Eurocode 3 (EN 1993-1-1) code compliance</li>
+            <li>Axial tension &amp; compression checks</li>
+            <li>Bending, shear, and buckling verification</li>
+            <li>Additive and assembly manufacturing outputs</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="pub-block">
+      <div class="pub-label">Publication</div>
+      <p class="pub-text">L.S. Sarma, C. Mallikarachchi and S. Herath, "Design-Informed Generative Modelling of Skeletal Structures using Structural Optimization," <em>Computers and Structures</em>, vol. 302, p. 107474, 2024. <a href="https://doi.org/10.1016/j.compstruc.2024.107474" target="_blank" style="color:var(--teal);">[Link]</a></p>
+    </div>
+  </section>
+
+  <a href="https://lowhikan.github.io#research" class="back-link">&larr; Back to Research</a>
+
+</div>
+
+<footer>
+  <span>Part of <a href="https://lowhikan.github.io" style="color:var(--text-3);">lowhikan.github.io</a></span>
+  <span>© 2026 Lowhikan Sivananthasarma</span>
+</footer>
+
+<script>
+const themeToggle = document.getElementById('theme-toggle');
+if (themeToggle) {
+  themeToggle.addEventListener('click', () => {
+    const isLight = document.documentElement.getAttribute('data-theme') === 'light';
+    if (isLight) {
+      document.documentElement.removeAttribute('data-theme');
+      localStorage.setItem('theme', 'dark');
+    } else {
+      document.documentElement.setAttribute('data-theme', 'light');
+      localStorage.setItem('theme', 'light');
+    }
+  });
+}
+</script>
+</body>
+</html>
